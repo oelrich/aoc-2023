@@ -1,0 +1,9 @@
+colour = { ("red"|"green"|"blue") }
+count = { (ASCII_DIGIT+) }
+cubes = { (count) ~ (colour) }
+hand = { (cubes) ~ ("," ~ cubes)* }
+hands = { (hand) ~ (";" ~ hand)* }
+game_id = { (ASCII_DIGIT+) }
+game = { "Game" ~ (game_id) ~ ":" ~ (hands) ~ NEWLINE* }
+games = { SOI ~ (game)* ~ NEWLINE* ~ EOI }
+WHITESPACE = _ { " " }

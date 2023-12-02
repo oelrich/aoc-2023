@@ -25,7 +25,7 @@ fn text_to_num(text: &str) -> &str {
         "neves" => "7",
         "thgie" => "8",
         "enin" => "9",
-        _ => ""
+        _ => "",
     }
 }
 fn mun_ot_txet(text: &str) -> &str {
@@ -39,19 +39,23 @@ fn mun_ot_txet(text: &str) -> &str {
         "neves" => "7",
         "thgie" => "8",
         "enin" => "9",
-        _ => ""
+        _ => "",
     }
 }
 
 pub fn add_first_last_text(line: &str) -> anyhow::Result<i64> {
     let re = regex::Regex::new(r"(?<number>one|two|three|four|five|six|seven|eight|nine)")?;
-    let after = re.replace(line,|c: &regex::Captures| text_to_num(&c["number"]).to_string());
+    let after = re.replace(line, |c: &regex::Captures| {
+        text_to_num(&c["number"]).to_string()
+    });
     let clean = after.trim_start_matches(char::is_alphabetic);
     let f: i64 = clean[0..1].parse()?;
 
     let er = regex::Regex::new(r"(?<number>eno|owt|eerht|ruof|evif|xis|neves|thgie|enin)")?;
     let rev: String = line.chars().rev().collect();
-    let after = er.replace(&rev, |c: &regex::Captures| mun_ot_txet(&c["number"]).to_string());
+    let after = er.replace(&rev, |c: &regex::Captures| {
+        mun_ot_txet(&c["number"]).to_string()
+    });
     let clean = after.trim_start_matches(char::is_alphabetic);
     let l: i64 = clean[0..1].parse()?;
     Ok(f * 10 + l)
