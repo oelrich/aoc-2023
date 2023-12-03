@@ -1,0 +1,8 @@
+part_number = { (ASCII_DIGIT+) }
+part = { !("."|NEWLINE) ~ (ASCII) }
+positional = _ { (".")+ }
+entry = _ { (part_number|part) }
+line = _ { (entry|positional)* }
+eoi = _ { !ANY }
+schematic = _ { SOI ~ (line) ~ ( NEWLINE ~ line)* ~ eoi }
+WHITESPACE = _ { " " }
