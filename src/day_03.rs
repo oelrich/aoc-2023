@@ -5,7 +5,7 @@ use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
 
 #[derive(Parser)]
-#[grammar = "schematic.pest"]
+#[grammar = "day_03.pest"]
 struct SchematicParser;
 
 trait Neighbours {
@@ -13,7 +13,7 @@ trait Neighbours {
 }
 
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy)]
-struct Point (i32,i32);
+pub struct Point (i32,i32);
 
 impl Neighbours for Point {
     fn neighbours(&self) -> HashSet<Point> {
@@ -72,17 +72,17 @@ impl TryFrom<Pair<'_, Rule>> for Entry {
 }
 
 #[derive(Debug)]
-struct Schematic {
+pub struct Schematic {
     parts: HashMap<Point, String>,
     neighbour_number: HashMap<Point, HashSet<(i32, Vec<Point>)>>,
     part_numbers: Vec<(i32, Vec<Point>)>,
 }
 
 impl Schematic {
-    fn get_gear_powers(&self) -> Vec<(Point, i32)> {
+    pub fn get_gear_powers(&self) -> Vec<(Point, i32)> {
         self.parts.iter()
             .filter(|(_p, s)| *s == "*")
-            .filter_map(|(p, s)|
+            .filter_map(|(p, _s)|
             { self.neighbour_number
                   .get(p)
                   .filter(|h| h.len() == 2)
@@ -91,7 +91,7 @@ impl Schematic {
                 (*p, ps) })})
             .collect()
     }
-    fn get_part_numbers(&self) -> Vec<i32> {
+    pub fn get_part_numbers(&self) -> Vec<i32> {
         self.part_numbers.iter()
         .filter_map(|(pn, ps)| {
                                      let ns = ps.neighbours();
@@ -133,7 +133,7 @@ mod test {
 
     #[test]
     fn part_a_test() {
-        let schema : Schematic = include_str!("../data/day_03.test.data").try_into().unwrap();
+        let schema : Schematic = include_str!("../data/day_03.test").try_into().unwrap();
         let part_sum : i32 = schema.get_part_numbers().iter().sum();
         assert_eq!(4361, part_sum)
     }
@@ -147,7 +147,7 @@ mod test {
 
     #[test]
     fn part_b_test() {
-        let schema : Schematic = include_str!("../data/day_03.test.data").try_into().unwrap();
+        let schema : Schematic = include_str!("../data/day_03.test").try_into().unwrap();
         let part_sum : i32 = schema.get_gear_powers().iter().map(|(_p, gp)| *gp).sum();
         assert_eq!(467835, part_sum)
     }

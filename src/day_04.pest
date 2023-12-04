@@ -1,0 +1,9 @@
+blank = _ { " "+ }
+number = { blank ~ (ASCII_DIGIT+) }
+numbers = { (number)+ }
+card_no = _ { (number) }
+winning_numbers = { (numbers) }
+card_numbers = { (numbers) }
+card = { "Card" ~ (card_no) ~ ":" ~ (winning_numbers) ~ " |" ~ (card_numbers) }
+eoi = _ { !ANY }
+cards = { SOI ~ (card ~ NEWLINE)* ~ (card)? ~ eoi }

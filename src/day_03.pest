@@ -4,5 +4,5 @@ positional = _ { (".")+ }
 entry = _ { (part_number|part) }
 line = _ { (entry|positional)* }
 eoi = _ { !ANY }
-schematic = _ { SOI ~ (line) ~ ( NEWLINE ~ line)* ~ eoi }
+schematic = _ { SOI ~ (line ~ NEWLINE)* ~ (line)? ~ eoi }
 WHITESPACE = _ { " " }

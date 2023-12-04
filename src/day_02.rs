@@ -5,7 +5,7 @@ use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
 
 #[derive(Parser)]
-#[grammar = "game.pest"]
+#[grammar = "day_02.pest"]
 struct GameParser;
 
 trait Limit {
@@ -129,10 +129,10 @@ impl TryFrom<Pair<'_, Rule>> for Game {
 }
 
 #[derive(Debug)]
-struct Games(Vec<Game>);
+pub struct Games(Vec<Game>);
 
 impl Games {
-    fn get_power(&self) -> u32 {
+    pub fn get_power(&self) -> u32 {
         self.0
             .iter()
             .map(|g| {
@@ -142,7 +142,7 @@ impl Games {
             .sum()
     }
 
-    fn limit_by(&self, rgb: (u32, u32, u32)) -> Vec<u32> {
+    pub fn limit_by(&self, rgb: (u32, u32, u32)) -> Vec<u32> {
         self.0
             .iter()
             .filter_map(|gm| if gm.limit(rgb) { Some(gm.id) } else { None })
